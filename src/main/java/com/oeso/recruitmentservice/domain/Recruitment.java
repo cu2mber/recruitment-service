@@ -39,40 +39,40 @@ public class Recruitment {
 
     @Column(name = "recruit_depart_date", nullable = false)
     @Comment("출발일")
-    private LocalDate departDate;
+    private LocalDate recruitDepartDate;
 
     @Column(name = "recruit_end_date", nullable = false)
     @Comment("마감일")
-    private LocalDate endDate;
+    private LocalDate recruitEndDate;
 
     @Column(name = "recruit_depart_time", columnDefinition = "time", nullable = false)
     @Comment("출발시간")
-    private LocalTime departTime;
+    private LocalTime recruitDepartTime;
 
     @Column(name = "recruit_return_time", columnDefinition = "time", nullable = false)
     @Comment("귀가시간")
-    private LocalTime returnTime;
+    private LocalTime recruitReturnTime;
 
     @Column(name = "recruit_amount", columnDefinition = "tinyint", nullable = false)
     @Comment("금액")
-    private int amount;
+    private int recruitAmount;
 
     @Column(name = "recruit_min_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최소인원")
-    private int minHeadcount;
+    private int recruitMinHeadcount;
 
     @Column(name = "recruit_max_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최대인원")
-    private int maxHeadcount;
+    private int recruitMaxHeadcount;
 
     @Convert(converter = StateTypeConvert.class)
     @Column(name = "recruit_state", columnDefinition = "tinyint", nullable = false)
     @Comment("모집상태")
-    private StateType state;
+    private StateType recruitState;
 
     @Column(name = "participant_count", columnDefinition = "tinyint", nullable = true)
     @Comment("참여인원수")
-    private int participantCount;
+    private int recruitParticipantCount;
 
     @Column(name = "created_at", nullable = false)
     @Comment("생성일자")
@@ -96,29 +96,29 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount, StateType state) {
+    public Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate recruitDepartDate, LocalDate endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StateType recruitState) {
         this.eventNo = eventNo;
         this.memberNo = memberNo;
         this.localNo = localNo;
-        this.departDate = departDate;
-        this.endDate = endDate;
-        this.departTime = departTime;
-        this.returnTime = returnTime;
-        this.amount = amount;
-        this.minHeadcount = minHeadcount;
-        this.maxHeadcount = maxHeadcount;
-        this.state = state;
+        this.recruitDepartDate = recruitDepartDate;
+        this.recruitEndDate = endDate;
+        this.recruitDepartTime = recruitDepartTime;
+        this.recruitReturnTime = recruitReturnTime;
+        this.recruitAmount = recruitAmount;
+        this.recruitMinHeadcount = recruitMinHeadcount;
+        this.recruitMaxHeadcount = recruitMaxHeadcount;
+        this.recruitState = recruitState;
     }
 
-    public Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
+    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
         return new Recruitment(eventNo, memberNo, localNo, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StateType.OPEN);
     }
 
     private void update(LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
-        this.departTime = departTime;
-        this.returnTime = returnTime;
-        this.amount = amount;
-        this.minHeadcount = minHeadcount;
-        this.maxHeadcount = maxHeadcount;
+        this.recruitDepartTime = departTime;
+        this.recruitReturnTime = returnTime;
+        this.recruitAmount = amount;
+        this.recruitMinHeadcount = minHeadcount;
+        this.recruitMaxHeadcount = maxHeadcount;
     }
 }
