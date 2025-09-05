@@ -1,5 +1,7 @@
 package com.oeso.recruitmentservice.domain;
 
+import com.oeso.recruitmentservice.vo.StateTypeConvert;
+import com.oeso.recruitmentservice.vo.StateType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Comment;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -34,25 +37,42 @@ public class Recruitment {
     @Comment("지자체번호")
     private int localNo;
 
-    @Column(name = "local_depart_time", columnDefinition = "time", nullable = false)
+    @Column(name = "recruit_depart_date", nullable = false)
+    @Comment("출발일")
+    private LocalDate departDate;
+
+    @Column(name = "recruit_end_date", nullable = false)
+    @Comment("마감일")
+    private LocalDate endDate;
+
+    @Column(name = "recruit_depart_time", columnDefinition = "time", nullable = false)
     @Comment("출발시간")
     private LocalTime departTime;
 
-    @Column(name = "local_return_time", columnDefinition = "time", nullable = false)
+    @Column(name = "recruit_return_time", columnDefinition = "time", nullable = false)
     @Comment("귀가시간")
     private LocalTime returnTime;
 
-    @Column(name = "local_amount", columnDefinition = "tinyint", nullable = false)
+    @Column(name = "recruit_amount", columnDefinition = "tinyint", nullable = false)
     @Comment("금액")
     private int amount;
 
-    @Column(name = "local_min_headcount", columnDefinition = "tinyint", nullable = false)
+    @Column(name = "recruit_min_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최소인원")
     private int minHeadcount;
 
-    @Column(name = "local_max_headcount", columnDefinition = "tinyint", nullable = false)
+    @Column(name = "recruit_max_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최대인원")
     private int maxHeadcount;
+
+    @Convert(converter = StateTypeConvert.class)
+    @Column(name = "recruit_state", columnDefinition = "tinyint", nullable = false)
+    @Comment("모집상태")
+    private StateType state;
+
+    @Column(name = "participant_count", columnDefinition = "tinyint", nullable = true)
+    @Comment("참여인원수")
+    private int participantCount;
 
     @Column(name = "created_at", nullable = false)
     @Comment("생성일자")
@@ -76,19 +96,22 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Recruitment(Long eventNo, Long memberNo, int localNo, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount) {
+    public Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount, StateType state) {
         this.eventNo = eventNo;
         this.memberNo = memberNo;
         this.localNo = localNo;
+        this.departDate = departDate;
+        this.endDate = endDate;
         this.departTime = departTime;
         this.returnTime = returnTime;
         this.amount = amount;
         this.minHeadcount = minHeadcount;
         this.maxHeadcount = maxHeadcount;
+        this.state = state;
     }
 
-    public Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
-        return new Recruitment(eventNo, memberNo, localNo, departTime, returnTime, amount, minHeadcount, maxHeadcount);
+    public Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
+        return new Recruitment(eventNo, memberNo, localNo, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StateType.OPEN);
     }
 
     private void update(LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
