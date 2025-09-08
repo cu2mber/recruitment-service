@@ -1,6 +1,6 @@
-package com.oeso.recruitmentservice.repository;
+package com.cu2mber.recruitmentservice.repository;
 
-import com.oeso.recruitmentservice.domain.Recruitment;
+import com.cu2mber.recruitmentservice.domain.Recruitment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> {

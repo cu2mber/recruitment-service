@@ -1,4 +1,4 @@
-package com.oeso.recruitmentservice.vo;
+package com.cu2mber.recruitmentservice.vo;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.oeso.recruitmentservice.dto;
+package com.cu2mber.recruitmentservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
@@ -11,18 +11,13 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-public class RecruitmentResponse {
+public class RecruitmentRequest {
 
-    Long recruitmentNo;
+    Long eventNo;
 
-    @Setter
-    String eventName;
+    Long memberNo;
 
-    @Setter
-    String memberName;
-
-    @Setter
-    String localName;
+    int localNo;
 
     @JsonProperty("departDate")
     LocalDate recruitDepartDate;
@@ -45,9 +40,4 @@ public class RecruitmentResponse {
     @JsonProperty("maxHeadcount")
     int recruitMaxHeadcount;
 
-    @JsonProperty("participantCount")
-    int recruitParticipantCount;
-
-    @JsonProperty("state")
-    String recruitState;
 }

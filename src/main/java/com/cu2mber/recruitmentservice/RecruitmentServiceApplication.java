@@ -1,4 +1,4 @@
-package com.oeso.recruitmentservice;
+package com.cu2mber.recruitmentservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

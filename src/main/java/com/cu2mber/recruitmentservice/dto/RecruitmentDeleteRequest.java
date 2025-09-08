@@ -1,4 +1,4 @@
-package com.oeso.recruitmentservice.dto;
+package com.cu2mber.recruitmentservice.dto;
 
 import lombok.*;
 
