@@ -11,6 +11,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class CustomRecruitmentImpl implements CustomRecruitmentRepository {
         JPAQuery<Long> count = queryFactory.select(qRecruitment.count())
                 .where(whereExpression(searchParam));
 
-        return null;
+        return PageableExecutionUtils.getPage(responseList, pageable, count::fetchOne);
     }
 
     private BooleanBuilder whereExpression(SearchParam searchParam) {
