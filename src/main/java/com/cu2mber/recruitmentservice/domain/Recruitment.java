@@ -96,7 +96,7 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate recruitDepartDate, LocalDate endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StateType recruitState) {
+    private Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate recruitDepartDate, LocalDate endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StateType recruitState) {
         this.eventNo = eventNo;
         this.memberNo = memberNo;
         this.localNo = localNo;
@@ -114,11 +114,20 @@ public class Recruitment {
         return new Recruitment(eventNo, memberNo, localNo, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StateType.OPEN);
     }
 
-    private void update(LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
+    public void update(LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
         this.recruitDepartTime = departTime;
         this.recruitReturnTime = returnTime;
         this.recruitAmount = amount;
         this.recruitMinHeadcount = minHeadcount;
         this.recruitMaxHeadcount = maxHeadcount;
     }
+
+    public void updateState(StateType state) {
+        this.recruitState = state;
+    }
+
+    public void delete() {
+        this.deletedAt = LocalDateTime.now();
+    }
+
 }
