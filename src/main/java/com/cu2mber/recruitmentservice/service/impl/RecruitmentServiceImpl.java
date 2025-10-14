@@ -67,16 +67,17 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         return getRecruitmentResponse(recruitment);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public RecruitmentResponse getRecruitment(Long recruitmentNo) {
-
-
-        return null;
+        return recruitmentRepository.findRecruitById(recruitmentNo)
+                .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Page<RecruitmentResponse> getRecruitPage(SearchParam searchParam, Pageable pageable) {
-        return null;
+        return recruitmentRepository.findRecruitPage(searchParam, pageable);
     }
 
     @Override
