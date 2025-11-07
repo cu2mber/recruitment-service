@@ -4,6 +4,11 @@ import com.cu2mber.recruitmentservice.common.exception.RecruitmentErrorCode;
 import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
 import com.cu2mber.recruitmentservice.domain.Recruitment;
 import com.cu2mber.recruitmentservice.dto.*;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
+import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
+import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.repository.RecruitmentRepository;
 import com.cu2mber.recruitmentservice.service.RecruitmentService;
 import lombok.RequiredArgsConstructor;
@@ -70,14 +75,22 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Transactional(readOnly = true)
     @Override
     public RecruitmentResponse getRecruitment(Long recruitmentNo) {
-        return recruitmentRepository.findRecruitById(recruitmentNo)
+        return recruitmentRepository.findRecruit(recruitmentNo)
                 .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<RecruitmentResponse> getRecruitPage(SearchParam searchParam, Pageable pageable) {
-        return recruitmentRepository.findRecruitPage(searchParam, pageable);
+    public Page<RecruitmentListResponse> getRecruitPage(SearchParam searchParam, Pageable pageable) {
+
+        // todo: 모집 지역 이름 찾기
+
+        // todo: 행사 이름 찾기
+
+        // todo: 작성자 이름 찾기
+
+
+        return null;
     }
 
     @Override

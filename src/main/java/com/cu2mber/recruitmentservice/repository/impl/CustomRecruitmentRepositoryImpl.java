@@ -1,8 +1,8 @@
 package com.cu2mber.recruitmentservice.repository.impl;
 
 import com.cu2mber.recruitmentservice.domain.QRecruitment;
-import com.cu2mber.recruitmentservice.dto.QRecruitmentResponse;
-import com.cu2mber.recruitmentservice.dto.RecruitmentResponse;
+import com.cu2mber.recruitmentservice.dto.response.QRecruitmentResponse;
+import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.dto.SearchParam;
 import com.cu2mber.recruitmentservice.repository.CustomRecruitmentRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -17,8 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class CustomRecruitmentImpl implements CustomRecruitmentRepository {
-
+public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -42,7 +41,7 @@ public class CustomRecruitmentImpl implements CustomRecruitmentRepository {
     }
 
     @Override
-    public Optional<RecruitmentResponse> findRecruitById(Long recruitmentNo) {
+    public Optional<RecruitmentResponse> findRecruit(Long recruitmentNo) {
         RecruitmentResponse response = queryResponse(queryFactory)
                 .where(qRecruitment.recruitmentNo.eq(recruitmentNo)).fetchOne();
 
@@ -60,6 +59,7 @@ public class CustomRecruitmentImpl implements CustomRecruitmentRepository {
                 .fetch();
 
         JPAQuery<Long> count = queryFactory.select(qRecruitment.count())
+                .from(qRecruitment)
                 .where(whereExpression(searchParam));
 
         return PageableExecutionUtils.getPage(responseList, pageable, count::fetchOne);
