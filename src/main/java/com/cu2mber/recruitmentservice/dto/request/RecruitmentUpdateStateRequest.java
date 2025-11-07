@@ -1,6 +1,6 @@
-package com.cu2mber.recruitmentservice.dto;
+package com.cu2mber.recruitmentservice.dto.request;
 
-import com.cu2mber.recruitmentservice.vo.StateType;
+import com.cu2mber.recruitmentservice.vo.StatusType;
 import lombok.*;
 
 @Getter
@@ -10,6 +10,6 @@ import lombok.*;
 @EqualsAndHashCode
 public class RecruitmentUpdateStateRequest {
 
-    StateType stateType;
+    StatusType statusType;
 
 }

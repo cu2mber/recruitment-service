@@ -1,4 +1,4 @@
-package com.cu2mber.recruitmentservice.dto;
+package com.cu2mber.recruitmentservice.dto.response;
 
 import com.cu2mber.recruitmentservice.vo.StatusType;
 import lombok.*;

@@ -1,6 +1,11 @@
 package com.cu2mber.recruitmentservice.controller;
 
 import com.cu2mber.recruitmentservice.dto.*;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
+import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
+import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.service.RecruitmentService;
 import com.cu2mber.recruitmentservice.vo.StatusType;
 import jakarta.validation.Valid;

@@ -1,6 +1,6 @@
-package com.cu2mber.recruitmentservice.dto;
+package com.cu2mber.recruitmentservice.dto.response;
 
-import com.cu2mber.recruitmentservice.vo.StateType;
+import com.cu2mber.recruitmentservice.vo.StatusType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
@@ -15,11 +15,13 @@ import java.time.LocalTime;
 @EqualsAndHashCode
 public class RecruitmentResponse {
 
+    @JsonProperty("no")
     Long recruitmentNo;
 
     @Setter
     String eventName;
 
+    @JsonProperty("author")
     @Setter
     String memberName;
 
@@ -48,13 +50,13 @@ public class RecruitmentResponse {
     int recruitMaxHeadcount;
 
     @JsonProperty("participantCount")
-    int recruitParticipantCount;
+    int recruitParticipantCount = 0;
 
     @JsonProperty("state")
     String recruitState;
 
     @QueryProjection
-    public RecruitmentResponse(Long recruitmentNo, LocalDate recruitDepartDate, LocalDate recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StateType recruitState) {
+    public RecruitmentResponse(Long recruitmentNo, LocalDate recruitDepartDate, LocalDate recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState) {
         this.recruitmentNo = recruitmentNo;
         this.recruitDepartDate = recruitDepartDate;
         this.recruitEndDate = recruitEndDate;

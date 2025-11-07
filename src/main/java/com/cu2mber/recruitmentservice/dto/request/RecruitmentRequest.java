@@ -1,4 +1,4 @@
-package com.cu2mber.recruitmentservice.dto;
+package com.cu2mber.recruitmentservice.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
