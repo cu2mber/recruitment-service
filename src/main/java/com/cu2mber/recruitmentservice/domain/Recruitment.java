@@ -1,7 +1,7 @@
 package com.cu2mber.recruitmentservice.domain;
 
-import com.cu2mber.recruitmentservice.vo.StateTypeConvert;
-import com.cu2mber.recruitmentservice.vo.StateType;
+import com.cu2mber.recruitmentservice.vo.StatusTypeConvert;
+import com.cu2mber.recruitmentservice.vo.StatusType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -65,10 +65,10 @@ public class Recruitment {
     @Comment("최대인원")
     private int recruitMaxHeadcount;
 
-    @Convert(converter = StateTypeConvert.class)
+    @Convert(converter = StatusTypeConvert.class)
     @Column(name = "recruit_state", columnDefinition = "tinyint", nullable = false)
     @Comment("모집상태")
-    private StateType recruitState;
+    private StatusType recruitState;
 
     @Column(name = "participant_count", columnDefinition = "tinyint", nullable = true)
     @Comment("참여인원수")
@@ -96,7 +96,7 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    private Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate recruitDepartDate, LocalDate endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StateType recruitState) {
+    private Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate recruitDepartDate, LocalDate endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
         this.eventNo = eventNo;
         this.memberNo = memberNo;
         this.localNo = localNo;
@@ -111,7 +111,7 @@ public class Recruitment {
     }
 
     public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
-        return new Recruitment(eventNo, memberNo, localNo, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StateType.OPEN);
+        return new Recruitment(eventNo, memberNo, localNo, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
     }
 
     public void update(LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
@@ -122,7 +122,7 @@ public class Recruitment {
         this.recruitMaxHeadcount = maxHeadcount;
     }
 
-    public void updateState(StateType state) {
+    public void updateState(StatusType state) {
         this.recruitState = state;
     }
 

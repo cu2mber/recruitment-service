@@ -3,21 +3,21 @@ package com.cu2mber.recruitmentservice.vo;
 import lombok.Getter;
 
 @Getter
-public enum StateType {
-    OPEN(1, "모집"),
+public enum StatusType {
+    OPEN(1, "진행 중"),
     CLOSED(2, "마감"),
     ENDED(3, "종료");
 
     private int code;
     private String description;
 
-    StateType(int code, String description) {
+    StatusType(int code, String description) {
         this.code = code;
         this.description = description;
     }
 
-    public static StateType fromCode(int code) {
-        for (StateType state : StateType.values()) {
+    public static StatusType fromCode(int code) {
+        for (StatusType state : StatusType.values()) {
             if (state.getCode() == code) {
                 return state;
             }
@@ -25,8 +25,8 @@ public enum StateType {
         throw new IllegalArgumentException("Invalid value: " + code);
     }
 
-    public static StateType fromDescription(String description) {
-        for (StateType state : StateType.values()) {
+    public static StatusType fromDescription(String description) {
+        for (StatusType state : StatusType.values()) {
             if (state.getDescription().equals(description)) {
                 return state;
             }
