@@ -5,7 +5,7 @@ import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
 import com.cu2mber.recruitmentservice.domain.Recruitment;
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
-import com.cu2mber.recruitmentservice.dto.request.RecruitmentRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -26,15 +26,29 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
     private final RecruitmentRepository recruitmentRepository;
 
-    @Override
-    public RecruitmentResponse create(RecruitmentRequest request) {
+//    private final EventClient eventClient;
 
+    @Override
+    public RecruitmentResponse create(RecruitmentCreateRequest request) {
+
+        LocalDateTime departDateTime = LocalDateTime.of(request.getRecruitDepartDate(), request.getRecruitDepartTime());
+
+        if(departDateTime.isAfter(LocalDateTime.now())) {
+            throw new IllegalStateException();
+        }
+
+        if(request.getRecruitDepartTime().isAfter(request.getRecruitReturnTime())) {
+            throw new IllegalStateException("출발시간이 마감시간 이후이면 안됩니다.");
+        }
+
+        // 모집 생성
         Recruitment recruitment = Recruitment.ofNewRecruitment(
                 request.getEventNo(),
-                request.getMemberNo(),
+                1L, // todo: 작성자 번호
                 request.getLocalNo(),
+                request.getRecruitTitle(),
                 request.getRecruitDepartDate(),
-                request.getRecruitEndDate() == null ? LocalDate.now().minusDays(1) : request.getRecruitEndDate(),
+                request.getRecruitEndDate() == null ? LocalDateTime.now().minusDays(1) : request.getRecruitEndDate(),
                 request.getRecruitDepartTime(),
                 request.getRecruitReturnTime(),
                 request.getRecruitAmount(),
@@ -46,18 +60,18 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     }
 
     @Override
-    public RecruitmentResponse update(Long recruitmentNo, RecruitmentRequest request) {
+    public RecruitmentResponse update(Long recruitmentNo, RecruitmentCreateRequest request) {
 
         Recruitment recruitment = recruitmentRepository.findById(recruitmentNo)
                 .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
 
-        recruitment.update(
-                recruitment.getRecruitDepartTime(),
-                recruitment.getRecruitReturnTime(),
-                recruitment.getRecruitAmount(),
-                recruitment.getRecruitMinHeadcount(),
-                recruitment.getRecruitMaxHeadcount()
-        );
+//        recruitment.update(
+//                recruitment.getRecruitDepartTime(),
+//                recruitment.getRecruitReturnTime(),
+//                recruitment.getRecruitAmount(),
+//                recruitment.getRecruitMinHeadcount(),
+//                recruitment.getRecruitMaxHeadcount()
+//        );
 
         return getRecruitmentResponse(recruitment);
     }
@@ -108,6 +122,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
                 null,
                 null,
                 null,
+                recruitment.getRecruitTitle(),
                 recruitment.getRecruitDepartDate(),
                 recruitment.getRecruitEndDate(),
                 recruitment.getRecruitDepartTime(),

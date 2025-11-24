@@ -2,7 +2,7 @@ package com.cu2mber.recruitmentservice.controller;
 
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
-import com.cu2mber.recruitmentservice.dto.request.RecruitmentRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -31,24 +32,9 @@ public class RecruitmentController {
     private final RecruitmentService recruitmentService;
 
     @PostMapping
-    public ResponseEntity<RecruitmentResponse> createRecruitment(@RequestBody @Valid RecruitmentRequest request) {
+    public ResponseEntity<RecruitmentResponse> createRecruitment(@RequestBody @Valid RecruitmentCreateRequest request) {
 
-        RecruitmentResponse response = new RecruitmentResponse(
-                1L,
-                "이벤트 이름",
-                "회원 이름",
-                "행사 지역",
-                request.getRecruitDepartDate(),
-                request.getRecruitEndDate(),
-                request.getRecruitDepartTime(),
-                request.getRecruitReturnTime(),
-                request.getRecruitAmount(),
-                request.getRecruitMinHeadcount(),
-                request.getRecruitMaxHeadcount(),
-                0,
-                StatusType.OPEN.getDescription()
-        );
-//        RecruitmentResponse response = recruitmentService.create(request);
+        RecruitmentResponse response = recruitmentService.create(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -65,7 +51,8 @@ public class RecruitmentController {
                 "모집 제목",
                 "작성자",
                 LocalDateTime.now(),
-                LocalDate.now().plusDays(1)
+                LocalDate.now(),
+                LocalDateTime.now().plusDays(1)
         );
         Page<RecruitmentListResponse> response = new PageImpl<>(List.of(recruitmentResponse));
 //        Page<RecruitmentResponse> response = recruitmentService.getRecruitPage(searchParam, pageable);
@@ -81,11 +68,12 @@ public class RecruitmentController {
                 "이벤트 이름" + no,
                 "회원 이름",
                 "행사 지역",
+                "[지자체] 행사 이름",
                 LocalDate.now(),
-                LocalDate.now().plusDays(1),
+                LocalDateTime.now().plusDays(1),
                 LocalTime.of(8, 0),
                 LocalTime.of(21, 0),
-                0,
+                BigDecimal.valueOf(0),
                 10,
                 40,
                 0,
@@ -96,12 +84,13 @@ public class RecruitmentController {
     }
 
     @PutMapping("/{no}")
-    public ResponseEntity<RecruitmentResponse> updateRecruitment(@PathVariable("no") Long no, @RequestBody @Valid RecruitmentRequest request) {
+    public ResponseEntity<RecruitmentResponse> updateRecruitment(@PathVariable("no") Long no, @RequestBody @Valid RecruitmentCreateRequest request) {
         RecruitmentResponse response = new RecruitmentResponse(
                 1L,
                 "이벤트 이름",
                 "회원 이름",
                 "행사 지역",
+                "[지자체] 행사 이름",
                 request.getRecruitDepartDate(),
                 request.getRecruitEndDate(),
                 request.getRecruitDepartTime(),
@@ -124,11 +113,12 @@ public class RecruitmentController {
                 "이벤트 이름" + no,
                 "회원 이름",
                 "행사 지역",
+                "[지자체] 행사 이름",
                 LocalDate.now(),
-                LocalDate.now().plusDays(1),
+                LocalDateTime.now().plusDays(1),
                 LocalTime.of(8, 0),
                 LocalTime.of(21, 0),
-                0,
+                BigDecimal.valueOf(0),
                 10,
                 40,
                 0,
