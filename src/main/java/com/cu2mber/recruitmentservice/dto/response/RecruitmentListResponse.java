@@ -40,18 +40,23 @@ public class RecruitmentListResponse {
     @EqualsAndHashCode.Exclude
     LocalDateTime createdAt;
 
+    @JsonProperty("departDate")
+    LocalDate recruitmentDepartDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonProperty("endDate")
     @EqualsAndHashCode.Exclude
-    LocalDate recruitmentEndDate;
+    LocalDateTime recruitmentEndDate;
 
     @QueryProjection
-    public RecruitmentListResponse(Long recruitmentNo, StatusType recruitState, Long localNo, Long eventNo, String recruitmentTitle, String recruitmentAuthor, LocalDateTime createdAt, LocalDate recruitmentEndDate) {
+    public RecruitmentListResponse(Long recruitmentNo, StatusType recruitState, Long localNo, Long eventNo, String recruitmentTitle, String recruitmentAuthor, LocalDateTime createdAt, LocalDate recruitmentDepartDate, LocalDateTime recruitmentEndDate) {
         this.recruitmentNo = recruitmentNo;
         this.recruitmentStatus = StatusResponse.from(recruitState);
         this.localNo = localNo;
         this.eventNo = eventNo;
         this.recruitmentTitle = recruitmentTitle;
         this.recruitmentAuthor = recruitmentAuthor;
+        this.recruitmentDepartDate = recruitmentDepartDate;
         this.createdAt = createdAt;
         this.recruitmentEndDate = recruitmentEndDate;
     }

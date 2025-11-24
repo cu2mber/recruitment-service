@@ -131,6 +131,8 @@ public class RecruitmentServiceImpl implements RecruitmentService {
                 recruitment.getRecruitMinHeadcount(),
                 recruitment.getRecruitMaxHeadcount(),
                 recruitment.getRecruitParticipantCount(),
-                recruitment.getRecruitState().getDescription());
+                recruitment.getRecruitState().getDescription(),
+                recruitment.getCreatedAt()
+        );
     }
 }

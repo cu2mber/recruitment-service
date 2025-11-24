@@ -27,6 +27,7 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
         return query.select(
                         new QRecruitmentResponse(
                                 qRecruitment.recruitmentNo,
+                                qRecruitment.recruitTitle,
                                 qRecruitment.recruitDepartDate,
                                 qRecruitment.recruitEndDate,
                                 qRecruitment.recruitDepartTime,
@@ -35,7 +36,8 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
                                 qRecruitment.recruitMinHeadcount,
                                 qRecruitment.recruitMaxHeadcount,
                                 qRecruitment.recruitParticipantCount,
-                                qRecruitment.recruitState)
+                                qRecruitment.recruitState,
+                                qRecruitment.createdAt)
                 )
                 .from(qRecruitment);
     }

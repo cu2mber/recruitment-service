@@ -1,6 +1,7 @@
 package com.cu2mber.recruitmentservice.dto.response;
 
 import com.cu2mber.recruitmentservice.vo.StatusType;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
@@ -36,6 +37,7 @@ public class RecruitmentResponse {
     @JsonProperty("departDate")
     LocalDate recruitDepartDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonProperty("endDate")
     LocalDateTime recruitEndDate;
 
@@ -60,8 +62,12 @@ public class RecruitmentResponse {
     @JsonProperty("state")
     String recruitState;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    @EqualsAndHashCode.Exclude
+    LocalDateTime createdAt;
+
     @QueryProjection
-    public RecruitmentResponse(Long recruitmentNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState) {
+    public RecruitmentResponse(Long recruitmentNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState, LocalDateTime createdAt) {
         this.recruitmentNo = recruitmentNo;
         this.recruitTitle = recruitTitle;
         this.recruitDepartDate = recruitDepartDate;
@@ -73,5 +79,6 @@ public class RecruitmentResponse {
         this.recruitMaxHeadcount = recruitMaxHeadcount;
         this.recruitParticipantCount = recruitParticipantCount;
         this.recruitState = recruitState.getDescription();
+        this.createdAt = createdAt;
     }
 }

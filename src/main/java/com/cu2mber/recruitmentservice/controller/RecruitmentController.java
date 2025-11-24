@@ -62,24 +62,7 @@ public class RecruitmentController {
 
     @GetMapping("/{no}")
     public ResponseEntity<RecruitmentResponse> getRecruitment(@PathVariable("no") Long no) {
-
-        RecruitmentResponse response = new RecruitmentResponse(
-                no,
-                "이벤트 이름" + no,
-                "회원 이름",
-                "행사 지역",
-                "[지자체] 행사 이름",
-                LocalDate.now(),
-                LocalDateTime.now().plusDays(1),
-                LocalTime.of(8, 0),
-                LocalTime.of(21, 0),
-                BigDecimal.valueOf(0),
-                10,
-                40,
-                0,
-                StatusType.OPEN.getDescription()
-        );
-//        RecruitmentResponse response = recruitmentService.getRecruitment(no);
+        RecruitmentResponse response = recruitmentService.getRecruitment(no);
         return ResponseEntity.ok(response);
     }
 
@@ -99,7 +82,8 @@ public class RecruitmentController {
                 request.getRecruitMinHeadcount(),
                 request.getRecruitMaxHeadcount(),
                 0,
-                StatusType.OPEN.getDescription()
+                StatusType.OPEN.getDescription(),
+                LocalDateTime.now()
         );
 //        RecruitmentResponse response = recruitmentService.update(no, request);
 
@@ -122,7 +106,8 @@ public class RecruitmentController {
                 10,
                 40,
                 0,
-                request.getStatusType().getDescription()
+                request.getStatusType().getDescription(),
+                LocalDateTime.now()
         );
         //        RecruitmentResponse response = recruitmentService.updateState(no, request);
 
