@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -28,11 +30,14 @@ public class RecruitmentResponse {
     @Setter
     String localName;
 
+    @JsonProperty("title")
+    String recruitTitle;
+
     @JsonProperty("departDate")
     LocalDate recruitDepartDate;
 
     @JsonProperty("endDate")
-    LocalDate recruitEndDate;
+    LocalDateTime recruitEndDate;
 
     @JsonProperty("departTime")
     LocalTime recruitDepartTime;
@@ -41,7 +46,7 @@ public class RecruitmentResponse {
     LocalTime recruitReturnTime;
 
     @JsonProperty("amount")
-    int recruitAmount;
+    BigDecimal recruitAmount;
 
     @JsonProperty("minHeadcount")
     int recruitMinHeadcount;
@@ -56,8 +61,9 @@ public class RecruitmentResponse {
     String recruitState;
 
     @QueryProjection
-    public RecruitmentResponse(Long recruitmentNo, LocalDate recruitDepartDate, LocalDate recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState) {
+    public RecruitmentResponse(Long recruitmentNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState) {
         this.recruitmentNo = recruitmentNo;
+        this.recruitTitle = recruitTitle;
         this.recruitDepartDate = recruitDepartDate;
         this.recruitEndDate = recruitEndDate;
         this.recruitDepartTime = recruitDepartTime;

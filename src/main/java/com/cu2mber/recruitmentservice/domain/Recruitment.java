@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Comment;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -37,13 +38,17 @@ public class Recruitment {
     @Comment("지자체번호")
     private int localNo;
 
+    @Column(name = "recruit_title", nullable = false, length = 100)
+    @Comment("모집 제목")
+    private String recruitTitle;
+
     @Column(name = "recruit_depart_date", nullable = false)
     @Comment("출발일")
     private LocalDate recruitDepartDate;
 
     @Column(name = "recruit_end_date", nullable = false)
-    @Comment("마감일")
-    private LocalDate recruitEndDate;
+    @Comment("마감일시")
+    private LocalDateTime recruitEndDate;
 
     @Column(name = "recruit_depart_time", columnDefinition = "time", nullable = false)
     @Comment("출발시간")
@@ -53,9 +58,9 @@ public class Recruitment {
     @Comment("귀가시간")
     private LocalTime recruitReturnTime;
 
-    @Column(name = "recruit_amount", columnDefinition = "tinyint", nullable = false)
+    @Column(name = "recruit_amount", nullable = false)
     @Comment("금액")
-    private int recruitAmount;
+    private BigDecimal recruitAmount;
 
     @Column(name = "recruit_min_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최소인원")
@@ -96,10 +101,11 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    private Recruitment(Long eventNo, Long memberNo, int localNo, LocalDate recruitDepartDate, LocalDate endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, int recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
+    private Recruitment(Long eventNo, Long memberNo, int localNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
         this.eventNo = eventNo;
         this.memberNo = memberNo;
         this.localNo = localNo;
+        this.recruitTitle = recruitTitle;
         this.recruitDepartDate = recruitDepartDate;
         this.recruitEndDate = endDate;
         this.recruitDepartTime = recruitDepartTime;
@@ -110,11 +116,12 @@ public class Recruitment {
         this.recruitState = recruitState;
     }
 
-    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, LocalDate departDate, LocalDate endDate, LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
-        return new Recruitment(eventNo, memberNo, localNo, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
+    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+        return new Recruitment(eventNo, memberNo, localNo, recruitTitle, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
     }
 
-    public void update(LocalTime departTime, LocalTime returnTime, int amount, int minHeadcount, int maxHeadcount){
+    public void update(String recruitTitle, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+        this.recruitTitle = recruitTitle;
         this.recruitDepartTime = departTime;
         this.recruitReturnTime = returnTime;
         this.recruitAmount = amount;
