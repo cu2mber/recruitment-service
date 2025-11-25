@@ -1,6 +1,7 @@
 package com.cu2mber.recruitmentservice.service;
 
 import com.cu2mber.recruitmentservice.dto.*;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
@@ -11,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface RecruitmentService {
 
-    RecruitmentResponse create(RecruitmentCreateRequest request);
+    RecruitmentResponse create(RecruitmentCreateCommand command);
 
     RecruitmentResponse update(Long recruitmentNo, RecruitmentCreateRequest request);
 

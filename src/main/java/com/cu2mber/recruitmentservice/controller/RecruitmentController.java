@@ -1,6 +1,7 @@
 package com.cu2mber.recruitmentservice.controller;
 
 import com.cu2mber.recruitmentservice.dto.*;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
@@ -34,7 +35,21 @@ public class RecruitmentController {
     @PostMapping
     public ResponseEntity<RecruitmentResponse> createRecruitment(@RequestBody @Valid RecruitmentCreateRequest request) {
 
-        RecruitmentResponse response = recruitmentService.create(request);
+        RecruitmentCreateCommand command = new RecruitmentCreateCommand(
+                request.eventNo(),
+                request.localNo(),
+                1L, // todo: 회원 ID
+                request.recruitTitle(),
+                request.recruitDepartDate(),
+                request.recruitEndDate(),
+                request.recruitDepartTime(),
+                request.recruitReturnTime(),
+                request.recruitAmount(),
+                request.recruitMinHeadcount(),
+                request.recruitMaxHeadcount()
+        );
+
+        RecruitmentResponse response = recruitmentService.create(command);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
@@ -74,13 +89,13 @@ public class RecruitmentController {
                 "회원 이름",
                 "행사 지역",
                 "[지자체] 행사 이름",
-                request.getRecruitDepartDate(),
-                request.getRecruitEndDate(),
-                request.getRecruitDepartTime(),
-                request.getRecruitReturnTime(),
-                request.getRecruitAmount(),
-                request.getRecruitMinHeadcount(),
-                request.getRecruitMaxHeadcount(),
+                request.recruitDepartDate(),
+                request.recruitEndDate(),
+                request.recruitDepartTime(),
+                request.recruitReturnTime(),
+                request.recruitAmount(),
+                request.recruitMinHeadcount(),
+                request.recruitMaxHeadcount(),
                 0,
                 StatusType.OPEN.getDescription(),
                 LocalDateTime.now()
@@ -106,7 +121,7 @@ public class RecruitmentController {
                 10,
                 40,
                 0,
-                request.getStatusType().getDescription(),
+                request.statusType().getDescription(),
                 LocalDateTime.now()
         );
         //        RecruitmentResponse response = recruitmentService.updateState(no, request);

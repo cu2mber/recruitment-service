@@ -4,6 +4,7 @@ import com.cu2mber.recruitmentservice.common.exception.RecruitmentErrorCode;
 import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
 import com.cu2mber.recruitmentservice.domain.entity.Recruitment;
 import com.cu2mber.recruitmentservice.dto.*;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
@@ -29,31 +30,32 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 //    private final EventClient eventClient;
 
     @Override
-    public RecruitmentResponse create(RecruitmentCreateRequest request) {
+    public RecruitmentResponse create(RecruitmentCreateCommand command) {
 
-        LocalDateTime departDateTime = LocalDateTime.of(request.getRecruitDepartDate(), request.getRecruitDepartTime());
+        LocalDateTime departDateTime = LocalDateTime.of(command.recruitDepartDate(), command.recruitDepartTime());
 
         if(departDateTime.isAfter(LocalDateTime.now())) {
             throw new IllegalStateException();
         }
 
-        if(request.getRecruitDepartTime().isAfter(request.getRecruitReturnTime())) {
+        if(command.recruitDepartTime().isAfter(command.recruitReturnTime())) {
             throw new IllegalStateException("출발시간이 마감시간 이후이면 안됩니다.");
         }
 
         // 모집 생성
         Recruitment recruitment = Recruitment.ofNewRecruitment(
-                request.getEventNo(),
-                1L, // todo: 작성자 번호
-                request.getLocalNo(),
-                request.getRecruitTitle(),
-                request.getRecruitDepartDate(),
-                request.getRecruitEndDate() == null ? LocalDateTime.now().minusDays(1) : request.getRecruitEndDate(),
-                request.getRecruitDepartTime(),
-                request.getRecruitReturnTime(),
-                request.getRecruitAmount(),
-                request.getRecruitMinHeadcount(),
-                request.getRecruitMaxHeadcount());
+                command.eventNo(),
+                command.memberNo(),
+                command.localNo(),
+                command.recruitTitle(),
+                command.recruitDepartDate(),
+                command.recruitEndDate() == null ? LocalDateTime.now().minusDays(1) : command.recruitEndDate(),
+                command.recruitDepartTime(),
+                command.recruitReturnTime(),
+                command.recruitAmount(),
+                command.recruitMinHeadcount(),
+                command.recruitMaxHeadcount()
+        );
 
         recruitmentRepository.save(recruitment);
         return getRecruitmentResponse(recruitment);
