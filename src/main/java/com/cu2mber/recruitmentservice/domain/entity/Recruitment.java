@@ -117,11 +117,33 @@ public class Recruitment {
     }
 
     public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+        LocalDateTime depart = LocalDateTime.of(departDate, departTime);
+
+        if(depart.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("출발 날짜/시간은 지금 시간보다 이전이면 안됩니다.");
+        }
+
+        if(endDate.isAfter(depart)) {
+            throw new IllegalStateException("마감 시간은 출발 시간보다 이후일 수 없습니다.");
+        }
+
+        if(departTime.isAfter(returnTime)) {
+            throw new IllegalStateException("출발시간이 귀가시간 이후이면 안됩니다.");
+        }
+
         return new Recruitment(eventNo, memberNo, localNo, recruitTitle, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
     }
 
-    public void update(String recruitTitle, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+    public void update(String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+        LocalDateTime depart = LocalDateTime.of(departDate, departTime);
+
+        if(endDate.isAfter(depart)) {
+            throw new IllegalStateException("마감 시간은 출발 시간보다 이후일 수 없습니다.");
+        }
+
         this.recruitTitle = recruitTitle;
+        this.recruitDepartDate = departDate;
+        this.recruitEndDate = endDate;
         this.recruitDepartTime = departTime;
         this.recruitReturnTime = returnTime;
         this.recruitAmount = amount;
@@ -135,6 +157,7 @@ public class Recruitment {
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
+        this.recruitState = StatusType.ENDED;
     }
 
 }
