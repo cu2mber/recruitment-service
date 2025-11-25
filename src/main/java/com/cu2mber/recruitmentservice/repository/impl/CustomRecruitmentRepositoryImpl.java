@@ -1,6 +1,6 @@
 package com.cu2mber.recruitmentservice.repository.impl;
 
-import com.cu2mber.recruitmentservice.domain.QRecruitment;
+import com.cu2mber.recruitmentservice.domain.entity.QRecruitment;
 import com.cu2mber.recruitmentservice.dto.response.QRecruitmentResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.dto.SearchParam;

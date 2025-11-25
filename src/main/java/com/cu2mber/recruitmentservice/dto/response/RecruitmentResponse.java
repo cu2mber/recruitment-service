@@ -1,6 +1,6 @@
 package com.cu2mber.recruitmentservice.dto.response;
 
-import com.cu2mber.recruitmentservice.vo.StatusType;
+import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;

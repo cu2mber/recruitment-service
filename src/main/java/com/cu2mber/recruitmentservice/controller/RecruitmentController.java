@@ -7,7 +7,7 @@ import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.service.RecruitmentService;
-import com.cu2mber.recruitmentservice.vo.StatusType;
+import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

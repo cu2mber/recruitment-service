@@ -1,4 +1,4 @@
-package com.cu2mber.recruitmentservice.vo;
+package com.cu2mber.recruitmentservice.domain.vo;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Convert;

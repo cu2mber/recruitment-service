@@ -2,7 +2,7 @@ package com.cu2mber.recruitmentservice.service.impl;
 
 import com.cu2mber.recruitmentservice.common.exception.RecruitmentErrorCode;
 import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
-import com.cu2mber.recruitmentservice.domain.Recruitment;
+import com.cu2mber.recruitmentservice.domain.entity.Recruitment;
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;

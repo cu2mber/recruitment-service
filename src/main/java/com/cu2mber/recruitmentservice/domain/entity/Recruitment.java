@@ -1,7 +1,7 @@
-package com.cu2mber.recruitmentservice.domain;
+package com.cu2mber.recruitmentservice.domain.entity;
 
-import com.cu2mber.recruitmentservice.vo.StatusTypeConvert;
-import com.cu2mber.recruitmentservice.vo.StatusType;
+import com.cu2mber.recruitmentservice.domain.vo.StatusTypeConvert;
+import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

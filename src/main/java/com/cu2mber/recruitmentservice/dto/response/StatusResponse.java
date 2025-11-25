@@ -1,6 +1,6 @@
 package com.cu2mber.recruitmentservice.dto.response;
 
-import com.cu2mber.recruitmentservice.vo.StatusType;
+import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import lombok.*;
 
 @Getter
