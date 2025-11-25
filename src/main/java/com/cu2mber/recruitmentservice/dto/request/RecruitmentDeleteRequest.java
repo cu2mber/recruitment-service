@@ -1,18 +1,11 @@
 package com.cu2mber.recruitmentservice.dto.request;
 
-import lombok.*;
+public record RecruitmentDeleteRequest(
 
-@Getter
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-public class RecruitmentDeleteRequest {
+        Long eventNo,
 
-    long eventNo;
+        Long localNo
+) {
 
-    long memberNo;
-
-    long localNo;
 
 }
