@@ -134,21 +134,36 @@ public class Recruitment {
         return new Recruitment(eventNo, memberNo, localNo, recruitTitle, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
     }
 
-    public void update(String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
-        LocalDateTime depart = LocalDateTime.of(departDate, departTime);
+    public void update(String title, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, Integer minHeadcount, Integer maxHeadcount){
+        LocalDate finalDepartDate = departDate != null ? departDate : this.recruitDepartDate;
+        LocalTime finalDepartTime = departTime != null ? departTime : this.recruitDepartTime;
+        LocalDateTime finalDepart = LocalDateTime.of(finalDepartDate, finalDepartTime);
 
-        if(endDate.isAfter(depart)) {
-            throw new IllegalStateException("마감 시간은 출발 시간보다 이후일 수 없습니다.");
+        LocalDateTime finalEndDate = endDate != null ? endDate : this.recruitEndDate;
+        LocalTime finalReturnTime = returnTime != null ? returnTime : this.recruitReturnTime;
+
+        validateTimes(finalDepart, finalEndDate, finalReturnTime);
+
+        if(title != null) this.recruitTitle = title;
+        this.recruitDepartDate = finalDepartDate;
+        this.recruitDepartTime = finalDepartTime;
+        this.recruitEndDate = finalEndDate;
+        this.recruitReturnTime = finalReturnTime;
+
+        if(amount != null) this.recruitAmount = amount;
+        if(minHeadcount != null) this.recruitMinHeadcount = minHeadcount;
+        if(maxHeadcount != null) this.recruitMaxHeadcount = maxHeadcount;
+    }
+
+    private void validateTimes(LocalDateTime depart, LocalDateTime end, LocalTime returnTime) {
+
+        if(end.isAfter(depart)) {
+            throw new IllegalArgumentException("마감 시간은 출발 시간보다 이후일 수 없습니다.");
         }
 
-        this.recruitTitle = recruitTitle;
-        this.recruitDepartDate = departDate;
-        this.recruitEndDate = endDate;
-        this.recruitDepartTime = departTime;
-        this.recruitReturnTime = returnTime;
-        this.recruitAmount = amount;
-        this.recruitMinHeadcount = minHeadcount;
-        this.recruitMaxHeadcount = maxHeadcount;
+        if(depart.toLocalTime().isAfter(returnTime)) {
+            throw new IllegalArgumentException("출발 시간은 귀가 시간 이후일 수 없습니다.");
+        }
     }
 
     public void updateState(StatusType state) {

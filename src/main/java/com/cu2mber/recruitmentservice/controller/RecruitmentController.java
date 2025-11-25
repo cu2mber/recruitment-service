@@ -5,6 +5,7 @@ import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
+import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
@@ -82,8 +83,8 @@ public class RecruitmentController {
         return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{no}")
-    public ResponseEntity<RecruitmentResponse> updateRecruitment(@PathVariable("no") Long no, @RequestBody @Valid RecruitmentCreateRequest request) {
+    @PatchMapping("/{no}")
+    public ResponseEntity<RecruitmentResponse> updateRecruitment(@PathVariable("no") Long no, @RequestBody @Valid RecruitmentUpdateRequest request) {
 
         RecruitmentUpdateCommand command = new RecruitmentUpdateCommand(
                 no,
