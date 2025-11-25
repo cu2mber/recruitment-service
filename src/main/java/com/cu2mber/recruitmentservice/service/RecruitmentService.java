@@ -2,8 +2,8 @@ package com.cu2mber.recruitmentservice.service;
 
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
-import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
@@ -14,7 +14,7 @@ public interface RecruitmentService {
 
     RecruitmentResponse create(RecruitmentCreateCommand command);
 
-    RecruitmentResponse update(Long recruitmentNo, RecruitmentCreateRequest request);
+    RecruitmentResponse update(RecruitmentUpdateCommand command);
 
     RecruitmentResponse updateState(Long recruitmentNo, RecruitmentUpdateStateRequest request);
 

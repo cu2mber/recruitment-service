@@ -5,8 +5,8 @@ import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
 import com.cu2mber.recruitmentservice.domain.entity.Recruitment;
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
-import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
@@ -32,16 +32,6 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Override
     public RecruitmentResponse create(RecruitmentCreateCommand command) {
 
-        LocalDateTime departDateTime = LocalDateTime.of(command.recruitDepartDate(), command.recruitDepartTime());
-
-        if(departDateTime.isAfter(LocalDateTime.now())) {
-            throw new IllegalStateException();
-        }
-
-        if(command.recruitDepartTime().isAfter(command.recruitReturnTime())) {
-            throw new IllegalStateException("출발시간이 마감시간 이후이면 안됩니다.");
-        }
-
         // 모집 생성
         Recruitment recruitment = Recruitment.ofNewRecruitment(
                 command.eventNo(),
@@ -62,18 +52,21 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     }
 
     @Override
-    public RecruitmentResponse update(Long recruitmentNo, RecruitmentCreateRequest request) {
+    public RecruitmentResponse update(RecruitmentUpdateCommand command) {
 
-        Recruitment recruitment = recruitmentRepository.findById(recruitmentNo)
+        Recruitment recruitment = recruitmentRepository.findById(command.recruitmentNo())
                 .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
 
-//        recruitment.update(
-//                recruitment.getRecruitDepartTime(),
-//                recruitment.getRecruitReturnTime(),
-//                recruitment.getRecruitAmount(),
-//                recruitment.getRecruitMinHeadcount(),
-//                recruitment.getRecruitMaxHeadcount()
-//        );
+        recruitment.update(
+            command.recruitTitle(),
+            command.recruitDepartDate(),
+            command.recruitEndDate(),
+            command.recruitDepartTime(),
+            command.recruitReturnTime(),
+            command.recruitAmount(),
+            command.recruitMinHeadcount(),
+            command.recruitMaxHeadcount()
+        );
 
         return getRecruitmentResponse(recruitment);
     }

@@ -2,6 +2,7 @@ package com.cu2mber.recruitmentservice.controller;
 
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
@@ -83,24 +84,23 @@ public class RecruitmentController {
 
     @PutMapping("/{no}")
     public ResponseEntity<RecruitmentResponse> updateRecruitment(@PathVariable("no") Long no, @RequestBody @Valid RecruitmentCreateRequest request) {
-        RecruitmentResponse response = new RecruitmentResponse(
-                1L,
-                "이벤트 이름",
-                "회원 이름",
-                "행사 지역",
-                "[지자체] 행사 이름",
+
+        RecruitmentUpdateCommand command = new RecruitmentUpdateCommand(
+                no,
+                request.eventNo(),
+                request.localNo(),
+                1L, // todo: 회원 ID
+                request.recruitTitle(),
                 request.recruitDepartDate(),
                 request.recruitEndDate(),
                 request.recruitDepartTime(),
                 request.recruitReturnTime(),
                 request.recruitAmount(),
                 request.recruitMinHeadcount(),
-                request.recruitMaxHeadcount(),
-                0,
-                StatusType.OPEN.getDescription(),
-                LocalDateTime.now()
+                request.recruitMaxHeadcount()
         );
-//        RecruitmentResponse response = recruitmentService.update(no, request);
+
+        RecruitmentResponse response = recruitmentService.update(command);
 
         return ResponseEntity.ok(response);
     }
