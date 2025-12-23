@@ -8,9 +8,7 @@ import java.time.LocalTime;
 public record RecruitmentCreateCommand(
         Long eventNo,
 
-        Integer localNo,
-
-        Long memberNo,
+        Long memberLocalNo,
 
         String recruitTitle,
 

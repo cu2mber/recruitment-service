@@ -23,12 +23,11 @@ public class RecruitmentListResponse {
     StatusResponse recruitmentStatus;
 
     @JsonIgnore
-    Long localNo;
+    Long memberLocalNo;
 
     @JsonIgnore
     Long eventNo;
 
-    @Setter
     @JsonProperty("title")
     String recruitmentTitle;
 
@@ -49,13 +48,12 @@ public class RecruitmentListResponse {
     LocalDateTime recruitmentEndDate;
 
     @QueryProjection
-    public RecruitmentListResponse(Long recruitmentNo, StatusType recruitState, Long localNo, Long eventNo, String recruitmentTitle, String recruitmentAuthor, LocalDateTime createdAt, LocalDate recruitmentDepartDate, LocalDateTime recruitmentEndDate) {
+    public RecruitmentListResponse(Long recruitmentNo, StatusType recruitState, Long memberLocalNo, Long eventNo, String recruitmentTitle, LocalDateTime createdAt, LocalDate recruitmentDepartDate, LocalDateTime recruitmentEndDate) {
         this.recruitmentNo = recruitmentNo;
         this.recruitmentStatus = StatusResponse.from(recruitState);
-        this.localNo = localNo;
+        this.memberLocalNo = memberLocalNo;
         this.eventNo = eventNo;
         this.recruitmentTitle = recruitmentTitle;
-        this.recruitmentAuthor = recruitmentAuthor;
         this.recruitmentDepartDate = recruitmentDepartDate;
         this.createdAt = createdAt;
         this.recruitmentEndDate = recruitmentEndDate;

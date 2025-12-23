@@ -30,13 +30,9 @@ public class Recruitment {
     @Comment("행사번호")
     private Long eventNo;
 
-    @Column(name = "member_no", nullable = false)
+    @Column(name = "member_local_mapping_no", nullable = false)
     @Comment("회원번호")
-    private Long memberNo;
-
-    @Column(name = "local_no", nullable = false)
-    @Comment("지자체번호")
-    private int localNo;
+    private Long memberLocalNo;
 
     @Column(name = "recruit_title", nullable = false, length = 100)
     @Comment("모집 제목")
@@ -101,10 +97,9 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    private Recruitment(Long eventNo, Long memberNo, int localNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
+    private Recruitment(Long eventNo, Long memberLocalNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
         this.eventNo = eventNo;
-        this.memberNo = memberNo;
-        this.localNo = localNo;
+        this.memberLocalNo = memberLocalNo;
         this.recruitTitle = recruitTitle;
         this.recruitDepartDate = recruitDepartDate;
         this.recruitEndDate = endDate;
@@ -116,7 +111,7 @@ public class Recruitment {
         this.recruitState = recruitState;
     }
 
-    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, int localNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
         LocalDateTime depart = LocalDateTime.of(departDate, departTime);
 
         if(depart.isBefore(LocalDateTime.now())) {
@@ -131,7 +126,7 @@ public class Recruitment {
             throw new IllegalStateException("출발시간이 귀가시간 이후이면 안됩니다.");
         }
 
-        return new Recruitment(eventNo, memberNo, localNo, recruitTitle, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
+        return new Recruitment(eventNo, memberNo, recruitTitle, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
     }
 
     public void update(String title, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, Integer minHeadcount, Integer maxHeadcount){

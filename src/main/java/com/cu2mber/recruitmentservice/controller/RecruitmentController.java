@@ -10,11 +10,9 @@ import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.service.RecruitmentService;
-import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -25,7 +23,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/recruits")
@@ -39,7 +36,6 @@ public class RecruitmentController {
 
         RecruitmentCreateCommand command = new RecruitmentCreateCommand(
                 request.eventNo(),
-                request.localNo(),
                 1L, // todo: 회원 ID
                 request.recruitTitle(),
                 request.recruitDepartDate(),
@@ -60,19 +56,7 @@ public class RecruitmentController {
     @GetMapping
     public ResponseEntity<Page<RecruitmentListResponse>> getRecruitmentPage(@RequestParam(required = false) SearchParam searchParam, @PageableDefault(size = 10) Pageable pageable) {
 
-        RecruitmentListResponse recruitmentResponse = new RecruitmentListResponse(
-                1L,
-                StatusType.OPEN,
-                1L,
-                1L,
-                "모집 제목",
-                "작성자",
-                LocalDateTime.now(),
-                LocalDate.now(),
-                LocalDateTime.now().plusDays(1)
-        );
-        Page<RecruitmentListResponse> response = new PageImpl<>(List.of(recruitmentResponse));
-//        Page<RecruitmentResponse> response = recruitmentService.getRecruitPage(searchParam, pageable);
+        Page<RecruitmentListResponse> response = recruitmentService.getRecruitPage(searchParam, pageable);
 
         return ResponseEntity.ok(response);
     }
@@ -89,7 +73,6 @@ public class RecruitmentController {
         RecruitmentUpdateCommand command = new RecruitmentUpdateCommand(
                 no,
                 request.eventNo(),
-                request.localNo(),
                 1L, // todo: 회원 ID
                 request.recruitTitle(),
                 request.recruitDepartDate(),
