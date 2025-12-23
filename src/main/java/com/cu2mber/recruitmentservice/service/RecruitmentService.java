@@ -5,6 +5,7 @@ import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
+import com.cu2mber.recruitmentservice.dto.response.InternalRecruitmentSummaryResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import org.springframework.data.domain.Page;
@@ -23,4 +24,6 @@ public interface RecruitmentService {
     Page<RecruitmentListResponse> getRecruitPage(SearchParam searchParam, Pageable pageable);
 
     void delete(Long recruitmentNo, RecruitmentDeleteRequest request);
+
+    InternalRecruitmentSummaryResponse getRecruitmentSummary(Long recruitmentNo);
 }

@@ -1,8 +1,7 @@
 package com.cu2mber.recruitmentservice.repository.impl;
 
 import com.cu2mber.recruitmentservice.domain.entity.QRecruitment;
-import com.cu2mber.recruitmentservice.dto.response.QRecruitmentResponse;
-import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
+import com.cu2mber.recruitmentservice.dto.response.*;
 import com.cu2mber.recruitmentservice.dto.SearchParam;
 import com.cu2mber.recruitmentservice.repository.CustomRecruitmentRepository;
 import com.querydsl.core.BooleanBuilder;
@@ -43,6 +42,23 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
     }
 
     @Override
+    public Optional<InternalRecruitmentSummaryResponse> findRecruitSummary(Long recruitmentNo) {
+        InternalRecruitmentSummaryResponse response = queryFactory.select(
+                new QInternalRecruitmentSummaryResponse(
+                        qRecruitment.recruitmentNo,
+                        qRecruitment.recruitState,
+                        qRecruitment.memberLocalNo,
+                        qRecruitment.eventNo,
+                        qRecruitment.recruitTitle,
+                        qRecruitment.recruitAmount
+                ))
+                .from(qRecruitment)
+                .where(qRecruitment.recruitmentNo.eq(recruitmentNo))
+                .fetchOne();
+        return Optional.ofNullable(response);
+    }
+
+    @Override
     public Optional<RecruitmentResponse> findRecruit(Long recruitmentNo) {
         RecruitmentResponse response = queryResponse(queryFactory)
                 .where(qRecruitment.recruitmentNo.eq(recruitmentNo)).fetchOne();
@@ -51,10 +67,22 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
     }
 
     @Override
-    public Page<RecruitmentResponse> findRecruitPage(SearchParam searchParam,
-                                                     Pageable pageable) {
+    public Page<RecruitmentListResponse> findRecruitPage(SearchParam searchParam,
+                                                         Pageable pageable) {
 
-        List<RecruitmentResponse> responseList = queryResponse(queryFactory)
+        List<RecruitmentListResponse> responseList = queryFactory.select(
+                new QRecruitmentListResponse(
+                        qRecruitment.recruitmentNo,
+                        qRecruitment.recruitState,
+                        qRecruitment.memberLocalNo,
+                        qRecruitment.eventNo,
+                        qRecruitment.recruitTitle,
+                        qRecruitment.createdAt,
+                        qRecruitment.recruitDepartDate,
+                        qRecruitment.recruitEndDate
+                )
+        )
+                .from(qRecruitment)
                 .where(whereExpression(searchParam))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

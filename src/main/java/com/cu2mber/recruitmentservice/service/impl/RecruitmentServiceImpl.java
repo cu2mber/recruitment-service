@@ -8,6 +8,7 @@ import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
+import com.cu2mber.recruitmentservice.dto.response.InternalRecruitmentSummaryResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.repository.RecruitmentRepository;
@@ -35,8 +36,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         // 모집 생성
         Recruitment recruitment = Recruitment.ofNewRecruitment(
                 command.eventNo(),
-                command.memberNo(),
-                command.localNo(),
+                command.memberLocalNo(),
                 command.recruitTitle(),
                 command.recruitDepartDate(),
                 command.recruitEndDate() == null ? LocalDateTime.now().minusDays(1) : command.recruitEndDate(),
@@ -68,6 +68,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
             command.recruitMaxHeadcount()
         );
 
+
         return getRecruitmentResponse(recruitment);
     }
 
@@ -84,13 +85,6 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Transactional(readOnly = true)
     @Override
     public RecruitmentResponse getRecruitment(Long recruitmentNo) {
-        return recruitmentRepository.findRecruit(recruitmentNo)
-                .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
-    }
-
-    @Transactional(readOnly = true)
-    @Override
-    public Page<RecruitmentListResponse> getRecruitPage(SearchParam searchParam, Pageable pageable) {
 
         // todo: 모집 지역 이름 찾기
 
@@ -98,8 +92,14 @@ public class RecruitmentServiceImpl implements RecruitmentService {
 
         // todo: 작성자 이름 찾기
 
+        return recruitmentRepository.findRecruit(recruitmentNo)
+                .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
+    }
 
-        return null;
+    @Transactional(readOnly = true)
+    @Override
+    public Page<RecruitmentListResponse> getRecruitPage(SearchParam searchParam, Pageable pageable) {
+        return recruitmentRepository.findRecruitPage(searchParam, pageable);
     }
 
     @Override
@@ -108,6 +108,13 @@ public class RecruitmentServiceImpl implements RecruitmentService {
                 .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
 
         recruitment.delete();
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public InternalRecruitmentSummaryResponse getRecruitmentSummary(Long recruitmentNo) {
+        return recruitmentRepository.findRecruitSummary(recruitmentNo)
+                .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
     }
 
 

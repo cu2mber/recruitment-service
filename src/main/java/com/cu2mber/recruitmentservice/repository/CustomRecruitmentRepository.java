@@ -1,5 +1,7 @@
 package com.cu2mber.recruitmentservice.repository;
 
+import com.cu2mber.recruitmentservice.dto.response.InternalRecruitmentSummaryResponse;
+import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
 import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
 import com.cu2mber.recruitmentservice.dto.SearchParam;
 import org.springframework.data.domain.Page;
@@ -9,7 +11,9 @@ import java.util.Optional;
 
 public interface CustomRecruitmentRepository {
 
+    Optional<InternalRecruitmentSummaryResponse> findRecruitSummary(Long recruitmentNo);
+
     Optional<RecruitmentResponse> findRecruit(Long recruitmentNo);
 
-    Page<RecruitmentResponse> findRecruitPage(SearchParam searchParam, Pageable pageable);
+    Page<RecruitmentListResponse> findRecruitPage(SearchParam searchParam, Pageable pageable);
 }
