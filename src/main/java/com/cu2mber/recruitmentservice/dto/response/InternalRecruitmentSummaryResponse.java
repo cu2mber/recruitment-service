@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.math.BigDecimal;
-
 @Getter
 @ToString
 @NoArgsConstructor
@@ -25,10 +23,10 @@ public class InternalRecruitmentSummaryResponse {
 
     private String recruitmentTitle;
 
-    private BigDecimal price;
+    private Long price;
 
     @QueryProjection
-    public InternalRecruitmentSummaryResponse(Long recruitmentNo, StatusType recruitmentStatus, Long memberLocalNo, Long eventNo, String recruitmentTitle, BigDecimal price) {
+    public InternalRecruitmentSummaryResponse(Long recruitmentNo, StatusType recruitmentStatus, Long memberLocalNo, Long eventNo, String recruitmentTitle, Long price) {
         this.recruitmentNo = recruitmentNo;
         this.recruitmentStatus = recruitmentStatus;
         this.memberLocalNo = memberLocalNo;

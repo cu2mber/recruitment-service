@@ -31,7 +31,7 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
                                 qRecruitment.recruitEndDate,
                                 qRecruitment.recruitDepartTime,
                                 qRecruitment.recruitReturnTime,
-                                qRecruitment.recruitAmount,
+                                qRecruitment.recruitmentPrice,
                                 qRecruitment.recruitMinHeadcount,
                                 qRecruitment.recruitMaxHeadcount,
                                 qRecruitment.recruitParticipantCount,
@@ -50,7 +50,7 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
                         qRecruitment.memberLocalNo,
                         qRecruitment.eventNo,
                         qRecruitment.recruitTitle,
-                        qRecruitment.recruitAmount
+                        qRecruitment.recruitmentPrice
                 ))
                 .from(qRecruitment)
                 .where(qRecruitment.recruitmentNo.eq(recruitmentNo))

@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.Comment;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -56,7 +55,7 @@ public class Recruitment {
 
     @Column(name = "recruit_amount", nullable = false)
     @Comment("금액")
-    private BigDecimal recruitAmount;
+    private Long recruitmentPrice;
 
     @Column(name = "recruit_min_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최소인원")
@@ -97,7 +96,7 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    private Recruitment(Long eventNo, Long memberLocalNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
+    private Recruitment(Long eventNo, Long memberLocalNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, Long recruitmentPrice, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
         this.eventNo = eventNo;
         this.memberLocalNo = memberLocalNo;
         this.recruitTitle = recruitTitle;
@@ -105,13 +104,13 @@ public class Recruitment {
         this.recruitEndDate = endDate;
         this.recruitDepartTime = recruitDepartTime;
         this.recruitReturnTime = recruitReturnTime;
-        this.recruitAmount = recruitAmount;
+        this.recruitmentPrice = recruitmentPrice;
         this.recruitMinHeadcount = recruitMinHeadcount;
         this.recruitMaxHeadcount = recruitMaxHeadcount;
         this.recruitState = recruitState;
     }
 
-    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, int minHeadcount, int maxHeadcount){
+    public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, Long amount, int minHeadcount, int maxHeadcount){
         LocalDateTime depart = LocalDateTime.of(departDate, departTime);
 
         if(depart.isBefore(LocalDateTime.now())) {
@@ -129,7 +128,7 @@ public class Recruitment {
         return new Recruitment(eventNo, memberNo, recruitTitle, departDate, endDate, departTime, returnTime, amount, minHeadcount, maxHeadcount, StatusType.OPEN);
     }
 
-    public void update(String title, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, BigDecimal amount, Integer minHeadcount, Integer maxHeadcount){
+    public void update(String title, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, Long amount, Integer minHeadcount, Integer maxHeadcount){
         LocalDate finalDepartDate = departDate != null ? departDate : this.recruitDepartDate;
         LocalTime finalDepartTime = departTime != null ? departTime : this.recruitDepartTime;
         LocalDateTime finalDepart = LocalDateTime.of(finalDepartDate, finalDepartTime);
@@ -145,7 +144,7 @@ public class Recruitment {
         this.recruitEndDate = finalEndDate;
         this.recruitReturnTime = finalReturnTime;
 
-        if(amount != null) this.recruitAmount = amount;
+        if(amount != null) this.recruitmentPrice = amount;
         if(minHeadcount != null) this.recruitMinHeadcount = minHeadcount;
         if(maxHeadcount != null) this.recruitMaxHeadcount = maxHeadcount;
     }
@@ -168,6 +167,14 @@ public class Recruitment {
     public void delete() {
         this.deletedAt = LocalDateTime.now();
         this.recruitState = StatusType.ENDED;
+    }
+
+    public void increaseParticipantCount() {
+        this.recruitParticipantCount += 1;
+    }
+
+    public void decreaseParticipantCount() {
+        this.recruitParticipantCount -= 1;
     }
 
 }

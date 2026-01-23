@@ -42,7 +42,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
                 command.recruitEndDate() == null ? LocalDateTime.now().minusDays(1) : command.recruitEndDate(),
                 command.recruitDepartTime(),
                 command.recruitReturnTime(),
-                command.recruitAmount(),
+                command.recruitmentPrice(),
                 command.recruitMinHeadcount(),
                 command.recruitMaxHeadcount()
         );
@@ -63,11 +63,10 @@ public class RecruitmentServiceImpl implements RecruitmentService {
             command.recruitEndDate(),
             command.recruitDepartTime(),
             command.recruitReturnTime(),
-            command.recruitAmount(),
+            command.recruitmentPrice(),
             command.recruitMinHeadcount(),
             command.recruitMaxHeadcount()
         );
-
 
         return getRecruitmentResponse(recruitment);
     }
@@ -129,7 +128,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
                 recruitment.getRecruitEndDate(),
                 recruitment.getRecruitDepartTime(),
                 recruitment.getRecruitReturnTime(),
-                recruitment.getRecruitAmount(),
+                recruitment.getRecruitmentPrice(),
                 recruitment.getRecruitMinHeadcount(),
                 recruitment.getRecruitMaxHeadcount(),
                 recruitment.getRecruitParticipantCount(),

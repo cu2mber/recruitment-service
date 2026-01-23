@@ -19,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -42,7 +41,7 @@ public class RecruitmentController {
                 request.recruitEndDate(),
                 request.recruitDepartTime(),
                 request.recruitReturnTime(),
-                request.recruitAmount(),
+                request.recruitmentPrice(),
                 request.recruitMinHeadcount(),
                 request.recruitMaxHeadcount()
         );
@@ -79,7 +78,7 @@ public class RecruitmentController {
                 request.recruitEndDate(),
                 request.recruitDepartTime(),
                 request.recruitReturnTime(),
-                request.recruitAmount(),
+                request.recruitmentPrice(),
                 request.recruitMinHeadcount(),
                 request.recruitMaxHeadcount()
         );
@@ -101,7 +100,7 @@ public class RecruitmentController {
                 LocalDateTime.now().plusDays(1),
                 LocalTime.of(8, 0),
                 LocalTime.of(21, 0),
-                BigDecimal.valueOf(0),
+                Long.valueOf(0),
                 10,
                 40,
                 0,

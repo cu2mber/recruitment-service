@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,7 +31,7 @@ public class RecruitmentResponse {
     String localName;
 
     @JsonProperty("title")
-    String recruitTitle;
+    String recruitmentTitle;
 
     @JsonProperty("departDate")
     LocalDate recruitDepartDate;
@@ -48,7 +47,7 @@ public class RecruitmentResponse {
     LocalTime recruitReturnTime;
 
     @JsonProperty("amount")
-    BigDecimal recruitAmount;
+    Long recruitmentPrice;
 
     @JsonProperty("minHeadcount")
     int recruitMinHeadcount;
@@ -67,14 +66,14 @@ public class RecruitmentResponse {
     LocalDateTime createdAt;
 
     @QueryProjection
-    public RecruitmentResponse(Long recruitmentNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, BigDecimal recruitAmount, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState, LocalDateTime createdAt) {
+    public RecruitmentResponse(Long recruitmentNo, String recruitmentTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, Long recruitmentPrice, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState, LocalDateTime createdAt) {
         this.recruitmentNo = recruitmentNo;
-        this.recruitTitle = recruitTitle;
+        this.recruitmentTitle = recruitmentTitle;
         this.recruitDepartDate = recruitDepartDate;
         this.recruitEndDate = recruitEndDate;
         this.recruitDepartTime = recruitDepartTime;
         this.recruitReturnTime = recruitReturnTime;
-        this.recruitAmount = recruitAmount;
+        this.recruitmentPrice = recruitmentPrice;
         this.recruitMinHeadcount = recruitMinHeadcount;
         this.recruitMaxHeadcount = recruitMaxHeadcount;
         this.recruitParticipantCount = recruitParticipantCount;

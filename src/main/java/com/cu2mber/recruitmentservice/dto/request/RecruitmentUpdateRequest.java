@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -31,7 +30,7 @@ public record RecruitmentUpdateRequest(
 
         @Positive
         @JsonProperty("amount")
-        BigDecimal recruitAmount,
+        Long recruitmentPrice,
 
         @Min(1)
         @JsonProperty("minHeadcount")

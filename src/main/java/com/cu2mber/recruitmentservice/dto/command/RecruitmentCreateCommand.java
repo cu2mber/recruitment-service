@@ -1,6 +1,5 @@
 package com.cu2mber.recruitmentservice.dto.command;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -20,7 +19,7 @@ public record RecruitmentCreateCommand(
 
         LocalTime recruitReturnTime,
 
-        BigDecimal recruitAmount,
+        Long recruitmentPrice,
 
         int recruitMinHeadcount,
 
