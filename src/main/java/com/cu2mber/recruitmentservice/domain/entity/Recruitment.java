@@ -169,12 +169,29 @@ public class Recruitment {
         this.recruitState = StatusType.ENDED;
     }
 
-    public void increaseParticipantCount() {
-        this.recruitParticipantCount += 1;
+    public void increaseParticipantCount(int count) {
+        if (count <= 0) {
+            throw new IllegalArgumentException("증가 인원은 1 이상이어야 합니다.");
+        }
+
+        if (this.recruitParticipantCount + count > this.recruitMaxHeadcount) {
+            throw new IllegalStateException("모집 정원을 초과할 수 없습니다.");
+        }
+
+        this.recruitParticipantCount += count;
     }
 
-    public void decreaseParticipantCount() {
-        this.recruitParticipantCount -= 1;
+    public void decreaseParticipantCount(int count) {
+        if (count <= 0) {
+            throw new IllegalArgumentException("감소 인원은 1 이상이어야 합니다.");
+        }
+
+        if (this.recruitParticipantCount - count < 0) {
+            throw new IllegalStateException("참여 인원 수는 0보다 작아질 수 없습니다.");
+        }
+
+        this.recruitParticipantCount -= count;
     }
+
 
 }
