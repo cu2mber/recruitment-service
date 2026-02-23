@@ -3,14 +3,13 @@ package com.cu2mber.recruitmentservice.service.impl;
 import com.cu2mber.recruitmentservice.common.exception.RecruitmentErrorCode;
 import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
 import com.cu2mber.recruitmentservice.domain.entity.Recruitment;
+import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
-import com.cu2mber.recruitmentservice.dto.response.InternalRecruitmentSummaryResponse;
-import com.cu2mber.recruitmentservice.dto.response.RecruitmentListResponse;
-import com.cu2mber.recruitmentservice.dto.response.RecruitmentResponse;
+import com.cu2mber.recruitmentservice.dto.response.*;
 import com.cu2mber.recruitmentservice.repository.RecruitmentRepository;
 import com.cu2mber.recruitmentservice.service.RecruitmentService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -72,13 +72,25 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     }
 
     @Override
-    public RecruitmentResponse updateState(Long recruitmentNo, RecruitmentUpdateStateRequest request) {
+    public RecruitmentUpdateStateResponse updateState(Long recruitmentNo, RecruitmentUpdateStateRequest request) {
         Recruitment recruitment = recruitmentRepository.findById(recruitmentNo)
                 .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
 
-        recruitment.updateState(recruitment.getRecruitState());
+        if (recruitment.getRecruitState() == request.statusType()) {
+            return null;
+        }
 
-        return getRecruitmentResponse(recruitment);
+        if (!recruitment.getRecruitState().canTransitionTo(request.statusType())) {
+            throw new RecruitmentException(RecruitmentErrorCode.INVALID_STATUS_TRANSITION);
+        }
+
+        recruitment.updateState(request.statusType());
+
+        return new RecruitmentUpdateStateResponse(
+                recruitment.getRecruitmentNo(),
+                recruitment.getRecruitTitle(),
+                request.statusType()
+        );
     }
 
     @Transactional(readOnly = true)
@@ -99,6 +111,11 @@ public class RecruitmentServiceImpl implements RecruitmentService {
     @Override
     public Page<RecruitmentListResponse> getRecruitPage(SearchParam searchParam, Pageable pageable) {
         return recruitmentRepository.findRecruitPage(searchParam, pageable);
+    }
+
+    @Override
+    public List<StatusResponse> getStatus() {
+        return StatusResponse.from(StatusType.values());
     }
 
     @Override

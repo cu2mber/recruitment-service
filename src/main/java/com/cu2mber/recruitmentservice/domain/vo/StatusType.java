@@ -4,9 +4,24 @@ import lombok.Getter;
 
 @Getter
 public enum StatusType {
-    OPEN(1, "진행 중"),
-    CLOSED(2, "마감"),
-    ENDED(3, "종료");
+    OPEN(1, "진행 중") {
+        @Override
+        public boolean canTransitionTo(StatusType newStatus) {
+            return newStatus == CLOSED || newStatus == ENDED;
+        }
+    },
+    CLOSED(2, "마감") {
+        @Override
+        public boolean canTransitionTo(StatusType newStatus) {
+            return newStatus == ENDED;
+        }
+    },
+    ENDED(3, "종료") {
+        @Override
+        public boolean canTransitionTo(StatusType newStatus) {
+            return false;
+        }
+    };
 
     private int code;
     private String description;
@@ -45,5 +60,7 @@ public enum StatusType {
     public boolean isEnded() {
         return this == ENDED;
     }
+
+    public abstract boolean canTransitionTo(StatusType newStatus);
 
 }
