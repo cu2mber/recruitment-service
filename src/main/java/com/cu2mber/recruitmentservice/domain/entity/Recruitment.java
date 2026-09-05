@@ -35,23 +35,23 @@ public class Recruitment {
 
     @Column(name = "recruit_title", nullable = false, length = 100)
     @Comment("모집 제목")
-    private String recruitTitle;
+    private String recruitmentTitle;
 
     @Column(name = "recruit_depart_date", nullable = false)
     @Comment("출발일")
-    private LocalDate recruitDepartDate;
+    private LocalDate recruitmentDepartDate;
 
     @Column(name = "recruit_end_date", nullable = false)
     @Comment("마감일시")
-    private LocalDateTime recruitEndDate;
+    private LocalDateTime recruitmentEndDate;
 
     @Column(name = "recruit_depart_time", columnDefinition = "time", nullable = false)
     @Comment("출발시간")
-    private LocalTime recruitDepartTime;
+    private LocalTime recruitmentDepartTime;
 
     @Column(name = "recruit_return_time", columnDefinition = "time", nullable = false)
     @Comment("귀가시간")
-    private LocalTime recruitReturnTime;
+    private LocalTime recruitmentReturnTime;
 
     @Column(name = "recruit_amount", nullable = false)
     @Comment("금액")
@@ -59,20 +59,20 @@ public class Recruitment {
 
     @Column(name = "recruit_min_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최소인원")
-    private int recruitMinHeadcount;
+    private int recruitmentMinHeadcount;
 
     @Column(name = "recruit_max_headcount", columnDefinition = "tinyint", nullable = false)
     @Comment("최대인원")
-    private int recruitMaxHeadcount;
+    private int recruitmentMaxHeadcount;
 
     @Convert(converter = StatusTypeConvert.class)
     @Column(name = "recruit_state", columnDefinition = "tinyint", nullable = false)
     @Comment("모집상태")
-    private StatusType recruitState;
+    private StatusType recruitmentState;
 
     @Column(name = "participant_count", columnDefinition = "tinyint", nullable = true)
     @Comment("참여인원수")
-    private int recruitParticipantCount;
+    private int recruitmentParticipantCount;
 
     @Column(name = "created_at", nullable = false)
     @Comment("생성일자")
@@ -96,18 +96,18 @@ public class Recruitment {
         this.updatedAt = LocalDateTime.now();
     }
 
-    private Recruitment(Long eventNo, Long memberLocalNo, String recruitTitle, LocalDate recruitDepartDate, LocalDateTime endDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, Long recruitmentPrice, int recruitMinHeadcount, int recruitMaxHeadcount, StatusType recruitState) {
+    private Recruitment(Long eventNo, Long memberLocalNo, String recruitmentTitle, LocalDate recruitmentDepartDate, LocalDateTime endDate, LocalTime recruitmentDepartTime, LocalTime recruitmentReturnTime, Long recruitmentPrice, int recruitmentMinHeadcount, int recruitmentMaxHeadcount, StatusType recruitmentState) {
         this.eventNo = eventNo;
         this.memberLocalNo = memberLocalNo;
-        this.recruitTitle = recruitTitle;
-        this.recruitDepartDate = recruitDepartDate;
-        this.recruitEndDate = endDate;
-        this.recruitDepartTime = recruitDepartTime;
-        this.recruitReturnTime = recruitReturnTime;
+        this.recruitmentTitle = recruitmentTitle;
+        this.recruitmentDepartDate = recruitmentDepartDate;
+        this.recruitmentEndDate = endDate;
+        this.recruitmentDepartTime = recruitmentDepartTime;
+        this.recruitmentReturnTime = recruitmentReturnTime;
         this.recruitmentPrice = recruitmentPrice;
-        this.recruitMinHeadcount = recruitMinHeadcount;
-        this.recruitMaxHeadcount = recruitMaxHeadcount;
-        this.recruitState = recruitState;
+        this.recruitmentMinHeadcount = recruitmentMinHeadcount;
+        this.recruitmentMaxHeadcount = recruitmentMaxHeadcount;
+        this.recruitmentState = recruitmentState;
     }
 
     public static Recruitment ofNewRecruitment(Long eventNo, Long memberNo, String recruitTitle, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, Long amount, int minHeadcount, int maxHeadcount){
@@ -129,44 +129,44 @@ public class Recruitment {
     }
 
     public void update(String title, LocalDate departDate, LocalDateTime endDate, LocalTime departTime, LocalTime returnTime, Long amount, Integer minHeadcount, Integer maxHeadcount){
-        LocalDate finalDepartDate = departDate != null ? departDate : this.recruitDepartDate;
-        LocalTime finalDepartTime = departTime != null ? departTime : this.recruitDepartTime;
+        LocalDate finalDepartDate = departDate != null ? departDate : this.recruitmentDepartDate;
+        LocalTime finalDepartTime = departTime != null ? departTime : this.recruitmentDepartTime;
         LocalDateTime finalDepart = LocalDateTime.of(finalDepartDate, finalDepartTime);
 
-        LocalDateTime finalEndDate = endDate != null ? endDate : this.recruitEndDate;
-        LocalTime finalReturnTime = returnTime != null ? returnTime : this.recruitReturnTime;
+        LocalDateTime finalEndDate = endDate != null ? endDate : this.recruitmentEndDate;
+        LocalTime finalReturnTime = returnTime != null ? returnTime : this.recruitmentReturnTime;
 
         validateTimes(finalDepart, finalEndDate, finalReturnTime);
 
-        if(title != null) this.recruitTitle = title;
-        this.recruitDepartDate = finalDepartDate;
-        this.recruitDepartTime = finalDepartTime;
-        this.recruitEndDate = finalEndDate;
-        this.recruitReturnTime = finalReturnTime;
+        if(title != null) this.recruitmentTitle = title;
+        this.recruitmentDepartDate = finalDepartDate;
+        this.recruitmentDepartTime = finalDepartTime;
+        this.recruitmentEndDate = finalEndDate;
+        this.recruitmentReturnTime = finalReturnTime;
 
         if(amount != null) this.recruitmentPrice = amount;
-        if(minHeadcount != null) this.recruitMinHeadcount = minHeadcount;
-        if(maxHeadcount != null) this.recruitMaxHeadcount = maxHeadcount;
+        if(minHeadcount != null) this.recruitmentMinHeadcount = minHeadcount;
+        if(maxHeadcount != null) this.recruitmentMaxHeadcount = maxHeadcount;
     }
 
     private void validateTimes(LocalDateTime depart, LocalDateTime end, LocalTime returnTime) {
 
         if(end.isAfter(depart)) {
-            throw new IllegalArgumentException("마감 시간은 출발 시간보다 이후일 수 없습니다.");
+            throw new IllegalStateException("마감 시간은 출발 시간보다 이후일 수 없습니다.");
         }
 
         if(depart.toLocalTime().isAfter(returnTime)) {
-            throw new IllegalArgumentException("출발 시간은 귀가 시간 이후일 수 없습니다.");
+            throw new IllegalStateException("출발 시간은 귀가 시간 이후일 수 없습니다.");
         }
     }
 
     public void updateState(StatusType state) {
-        this.recruitState = state;
+        this.recruitmentState = state;
     }
 
     public void delete() {
         this.deletedAt = LocalDateTime.now();
-        this.recruitState = StatusType.ENDED;
+        this.recruitmentState = StatusType.ENDED;
     }
 
     public void increaseParticipantCount(int count) {
@@ -174,23 +174,23 @@ public class Recruitment {
             throw new IllegalArgumentException("증가 인원은 1 이상이어야 합니다.");
         }
 
-        if (this.recruitParticipantCount + count > this.recruitMaxHeadcount) {
+        if (this.recruitmentParticipantCount + count > this.recruitmentMaxHeadcount) {
             throw new IllegalStateException("모집 정원을 초과할 수 없습니다.");
         }
 
-        this.recruitParticipantCount += count;
+        this.recruitmentParticipantCount += count;
     }
 
     public void decreaseParticipantCount(int count) {
         if (count <= 0) {
-            throw new IllegalArgumentException("감소 인원은 1 이상이어야 합니다.");
+            throw new IllegalStateException("감소 인원은 1 이상이어야 합니다.");
         }
 
-        if (this.recruitParticipantCount - count < 0) {
+        if (this.recruitmentParticipantCount - count < 0) {
             throw new IllegalStateException("참여 인원 수는 0보다 작아질 수 없습니다.");
         }
 
-        this.recruitParticipantCount -= count;
+        this.recruitmentParticipantCount -= count;
     }
 
 
