@@ -2,7 +2,9 @@ package com.cu2mber.recruitmentservice.service;
 
 import com.cu2mber.recruitmentservice.dto.*;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentDeleteCommand;
 import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
+import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateStateCommand;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.*;
@@ -24,6 +26,7 @@ public interface RecruitmentService {
 
     /**
      * 새로운 모집을 생성합니다.
+     * 권한: 지역 관리자
      *
      * @param command 모집 생성에 필요한 요청 데이터
      * @return 생성된 모집 상세 정보
@@ -32,6 +35,7 @@ public interface RecruitmentService {
 
     /**
      * 모집 정보를 수정합니다.
+     * 권한: 전체 관리자, 지역 관리자
      *
      * @param command 모집 수정에 필요한 요청 데이터
      * @return 수정된 모집 상세 정보
@@ -43,12 +47,12 @@ public interface RecruitmentService {
      * <p>
      * 모집 상태(예: OPEN, CLOSED 등)를 변경하며,
      * 상태 변경 가능 여부에 대한 검증을 포함합니다.
+     * 권한: 전체 관리자, 지역 관리자
      *
-     * @param recruitmentNo 모집 식별 번호
-     * @param request       모집 상태 변경 요청 데이터
+     * @param recruitmentUpdateStateCommand  모집 상태 변경 요청 데이터
      * @return 상태가 변경된 모집 상세 정보
      */
-    RecruitmentUpdateStateResponse updateState(Long recruitmentNo, RecruitmentUpdateStateRequest request);
+    RecruitmentUpdateStateResponse updateState(RecruitmentUpdateStateCommand recruitmentUpdateStateCommand);
 
     /**
      * 모집 단건의 상세 정보를 조회합니다.
@@ -79,11 +83,11 @@ public interface RecruitmentService {
      * <p>
      * 삭제 권한 및 삭제 가능 상태 여부를 검증한 후
      * 모집을 소프트 삭제 처리합니다.
+     * 권한: 전체 관리자, 지역 관리자
      *
-     * @param recruitmentNo 모집 식별 번호
-     * @param request       모집 삭제 요청 데이터
+     * @param recruitmentDeleteCommand  모집 삭제 요청 데이터
      */
-    void delete(Long recruitmentNo, RecruitmentDeleteRequest request);
+    void delete(RecruitmentDeleteCommand recruitmentDeleteCommand);
 
     /**
      * 모집 단건에 대한 내부 처리용 요약 정보를 조회합니다.

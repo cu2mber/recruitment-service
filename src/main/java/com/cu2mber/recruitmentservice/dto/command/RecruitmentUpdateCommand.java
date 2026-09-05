@@ -9,6 +9,8 @@ public record RecruitmentUpdateCommand(
 
         Long eventNo,
 
+        String role,
+
         Long memberLocalNo,
 
         String recruitTitle,

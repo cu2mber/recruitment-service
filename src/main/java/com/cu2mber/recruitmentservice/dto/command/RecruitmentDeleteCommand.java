@@ -5,6 +5,8 @@ public record RecruitmentDeleteCommand(
 
         Long eventNo,
 
+        String role,
+
         Long memberNo,
 
         Long localNo
