@@ -1,6 +1,7 @@
 package com.cu2mber.recruitmentservice.repository.impl;
 
 import com.cu2mber.recruitmentservice.domain.entity.QRecruitment;
+import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import com.cu2mber.recruitmentservice.dto.response.*;
 import com.cu2mber.recruitmentservice.dto.SearchParam;
 import com.cu2mber.recruitmentservice.repository.CustomRecruitmentRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,16 +28,16 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
         return query.select(
                         new QRecruitmentResponse(
                                 qRecruitment.recruitmentNo,
-                                qRecruitment.recruitTitle,
-                                qRecruitment.recruitDepartDate,
-                                qRecruitment.recruitEndDate,
-                                qRecruitment.recruitDepartTime,
-                                qRecruitment.recruitReturnTime,
+                                qRecruitment.recruitmentTitle,
+                                qRecruitment.recruitmentDepartDate,
+                                qRecruitment.recruitmentEndDate,
+                                qRecruitment.recruitmentDepartTime,
+                                qRecruitment.recruitmentReturnTime,
                                 qRecruitment.recruitmentPrice,
-                                qRecruitment.recruitMinHeadcount,
-                                qRecruitment.recruitMaxHeadcount,
-                                qRecruitment.recruitParticipantCount,
-                                qRecruitment.recruitState,
+                                qRecruitment.recruitmentMinHeadcount,
+                                qRecruitment.recruitmentMaxHeadcount,
+                                qRecruitment.recruitmentParticipantCount,
+                                qRecruitment.recruitmentState,
                                 qRecruitment.createdAt)
                 )
                 .from(qRecruitment);
@@ -46,11 +48,13 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
         InternalRecruitmentSummaryResponse response = queryFactory.select(
                 new QInternalRecruitmentSummaryResponse(
                         qRecruitment.recruitmentNo,
-                        qRecruitment.recruitState,
+                        qRecruitment.recruitmentState,
                         qRecruitment.memberLocalNo,
                         qRecruitment.eventNo,
-                        qRecruitment.recruitTitle,
-                        qRecruitment.recruitmentPrice
+                        qRecruitment.recruitmentTitle,
+                        qRecruitment.recruitmentPrice,
+                        qRecruitment.recruitmentDepartTime,
+                        qRecruitment.recruitmentReturnTime
                 ))
                 .from(qRecruitment)
                 .where(qRecruitment.recruitmentNo.eq(recruitmentNo))
@@ -73,13 +77,13 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
         List<RecruitmentListResponse> responseList = queryFactory.select(
                 new QRecruitmentListResponse(
                         qRecruitment.recruitmentNo,
-                        qRecruitment.recruitState,
+                        qRecruitment.recruitmentState,
                         qRecruitment.memberLocalNo,
                         qRecruitment.eventNo,
-                        qRecruitment.recruitTitle,
+                        qRecruitment.recruitmentTitle,
                         qRecruitment.createdAt,
-                        qRecruitment.recruitDepartDate,
-                        qRecruitment.recruitEndDate
+                        qRecruitment.recruitmentDepartDate,
+                        qRecruitment.recruitmentEndDate
                 )
         )
                 .from(qRecruitment)
@@ -93,6 +97,16 @@ public class CustomRecruitmentRepositoryImpl implements CustomRecruitmentReposit
                 .where(whereExpression(searchParam));
 
         return PageableExecutionUtils.getPage(responseList, pageable, count::fetchOne);
+    }
+
+    @Override
+    public long softDeleteAllByMemberLocalNo(Long memberNo) {
+        return queryFactory.update(qRecruitment)
+                .set(qRecruitment.deletedAt, LocalDateTime.now())
+                .set(qRecruitment.recruitmentState, StatusType.ENDED)
+                .where(qRecruitment.memberLocalNo.eq(memberNo),
+                        qRecruitment.deletedAt.isNull())
+                .execute();
     }
 
     private BooleanBuilder whereExpression(SearchParam searchParam) {

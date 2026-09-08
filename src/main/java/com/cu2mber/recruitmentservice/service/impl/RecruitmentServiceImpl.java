@@ -143,11 +143,7 @@ public class RecruitmentServiceImpl implements RecruitmentService {
             throw new RecruitmentException(RecruitmentErrorCode.FORBIDDEN);
         }
 
-        List<Recruitment> recruitmentList = recruitmentRepository.findAllByMemberLocalNo(command.memberNo());
-
-        for(Recruitment recruitment : recruitmentList) {
-            recruitment.delete();
-        }
+        recruitmentRepository.softDeleteAllByMemberLocalNo(command.memberNo());
     }
 
     @Transactional(readOnly = true)

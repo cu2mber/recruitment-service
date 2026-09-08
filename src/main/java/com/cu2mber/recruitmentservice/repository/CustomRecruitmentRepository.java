@@ -52,4 +52,15 @@ public interface CustomRecruitmentRepository {
      * @return 검색 조건이 적용된 모집 목록 (페이징 결과)
      */
     Page<RecruitmentListResponse> findRecruitPage(SearchParam searchParam, Pageable pageable);
+
+    /**
+     * 특정 회원이 등록한 모든 모집을 소프트 삭제한다.
+     *
+     * <p>실제 데이터를 삭제하지 않고 {@code deletedAt}을 현재 시간으로 설정하며,
+     * 모집 상태를 {@link com.cu2mber.recruitmentservice.domain.vo.StatusType#ENDED}로 변경한다.</p>
+     *
+     * @param memberLocalNo 모집을 등록한 회원의 로컬 식별자
+     * @return 소프트 삭제된 모집의 개수
+     */
+    long softDeleteAllByMemberLocalNo(Long memberLocalNo);
 }
