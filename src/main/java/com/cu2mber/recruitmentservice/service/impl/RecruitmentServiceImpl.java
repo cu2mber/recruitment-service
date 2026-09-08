@@ -5,10 +5,7 @@ import com.cu2mber.recruitmentservice.common.exception.RecruitmentException;
 import com.cu2mber.recruitmentservice.domain.entity.Recruitment;
 import com.cu2mber.recruitmentservice.domain.vo.StatusType;
 import com.cu2mber.recruitmentservice.dto.*;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentDeleteCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateStateCommand;
+import com.cu2mber.recruitmentservice.dto.command.*;
 import com.cu2mber.recruitmentservice.dto.response.*;
 import com.cu2mber.recruitmentservice.repository.RecruitmentRepository;
 import com.cu2mber.recruitmentservice.service.RecruitmentService;
@@ -138,6 +135,19 @@ public class RecruitmentServiceImpl implements RecruitmentService {
         checkRole(command.role(), command.memberNo(), recruitmentNo);
 
         recruitment.delete();
+    }
+
+    @Override
+    public void deleteAll(RecruitmentDeleteAllCommand command) {
+        if(!"ROLE_GOV".equals(command.role())) {
+            throw new RecruitmentException(RecruitmentErrorCode.FORBIDDEN);
+        }
+
+        List<Recruitment> recruitmentList = recruitmentRepository.findAllByMemberLocalNo(command.memberNo());
+
+        for(Recruitment recruitment : recruitmentList) {
+            recruitment.delete();
+        }
     }
 
     @Transactional(readOnly = true)

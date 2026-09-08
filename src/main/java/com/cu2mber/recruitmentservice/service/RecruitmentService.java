@@ -1,10 +1,7 @@
 package com.cu2mber.recruitmentservice.service;
 
 import com.cu2mber.recruitmentservice.dto.*;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentDeleteCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateStateCommand;
+import com.cu2mber.recruitmentservice.dto.command.*;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateStateRequest;
 import com.cu2mber.recruitmentservice.dto.response.*;
@@ -88,6 +85,17 @@ public interface RecruitmentService {
      * @param recruitmentDeleteCommand  모집 삭제 요청 데이터
      */
     void delete(RecruitmentDeleteCommand recruitmentDeleteCommand);
+
+    /**
+     * 관련된 모집을 전체 삭제합니다.
+     * <p>
+     * 삭제 권한 및 삭제 가능 상태 여부를 검증한 후
+     * 모집을 소프트 삭제 처리합니다.
+     * 권한: 지역 관리자
+     *
+     * @param recruitmentDeleteAllCommand  모집 삭제 요청 데이터
+     */
+    void deleteAll(RecruitmentDeleteAllCommand recruitmentDeleteAllCommand);
 
     /**
      * 모집 단건에 대한 내부 처리용 요약 정보를 조회합니다.

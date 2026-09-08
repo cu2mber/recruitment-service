@@ -1,10 +1,7 @@
 package com.cu2mber.recruitmentservice.controller;
 
 import com.cu2mber.recruitmentservice.dto.*;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentCreateCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentDeleteCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateCommand;
-import com.cu2mber.recruitmentservice.dto.command.RecruitmentUpdateStateCommand;
+import com.cu2mber.recruitmentservice.dto.command.*;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentDeleteRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentCreateRequest;
 import com.cu2mber.recruitmentservice.dto.request.RecruitmentUpdateRequest;
@@ -154,6 +151,21 @@ public class RecruitmentController {
         );
 
         recruitmentService.delete(command);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteAll(@RequestHeader("X-Role") String role,
+                                          @RequestHeader("X-Member-No") Long memberNo) {
+
+        RecruitmentDeleteAllCommand command = new RecruitmentDeleteAllCommand(
+                role,
+                memberNo
+        );
+
+        recruitmentService.deleteAll(command);
 
         return ResponseEntity.noContent().build();
     }
