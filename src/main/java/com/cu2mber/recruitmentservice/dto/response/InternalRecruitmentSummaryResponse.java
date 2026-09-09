@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalTime;
+
 @Getter
 @ToString
 @NoArgsConstructor
@@ -23,15 +25,21 @@ public class InternalRecruitmentSummaryResponse {
 
     private String recruitmentTitle;
 
-    private Long price;
+    private Long recruitmentPrice;
+
+    private LocalTime recruitmentDepartTime;
+
+    private LocalTime recruitmentReturnTime;
 
     @QueryProjection
-    public InternalRecruitmentSummaryResponse(Long recruitmentNo, StatusType recruitmentStatus, Long memberLocalNo, Long eventNo, String recruitmentTitle, Long price) {
+    public InternalRecruitmentSummaryResponse(Long recruitmentNo, StatusType recruitmentStatus, Long memberLocalNo, Long eventNo, String recruitmentTitle, Long recruitmentPrice, LocalTime recruitmentDepartTime, LocalTime recruitmentReturnTime) {
         this.recruitmentNo = recruitmentNo;
         this.recruitmentStatus = recruitmentStatus;
         this.memberLocalNo = memberLocalNo;
         this.eventNo = eventNo;
         this.recruitmentTitle = recruitmentTitle;
-        this.price = price;
+        this.recruitmentPrice = recruitmentPrice;
+        this.recruitmentDepartTime = recruitmentDepartTime;
+        this.recruitmentReturnTime = recruitmentReturnTime;
     }
 }

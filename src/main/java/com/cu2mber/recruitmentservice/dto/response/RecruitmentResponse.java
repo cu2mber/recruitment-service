@@ -23,7 +23,10 @@ public class RecruitmentResponse {
     @Setter
     String eventName;
 
-    @JsonProperty("author")
+    @JsonProperty("authorNo")
+    Long recruitmentMemberNo;
+
+    @JsonProperty("authorName")
     @Setter
     String memberName;
 
@@ -66,8 +69,9 @@ public class RecruitmentResponse {
     LocalDateTime createdAt;
 
     @QueryProjection
-    public RecruitmentResponse(Long recruitmentNo, String recruitmentTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, Long recruitmentPrice, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState, LocalDateTime createdAt) {
+    public RecruitmentResponse(Long recruitmentNo, Long recruitmentMemberNo, String recruitmentTitle, LocalDate recruitDepartDate, LocalDateTime recruitEndDate, LocalTime recruitDepartTime, LocalTime recruitReturnTime, Long recruitmentPrice, int recruitMinHeadcount, int recruitMaxHeadcount, int recruitParticipantCount, StatusType recruitState, LocalDateTime createdAt) {
         this.recruitmentNo = recruitmentNo;
+        this.recruitmentMemberNo = recruitmentMemberNo;
         this.recruitmentTitle = recruitmentTitle;
         this.recruitDepartDate = recruitDepartDate;
         this.recruitEndDate = recruitEndDate;

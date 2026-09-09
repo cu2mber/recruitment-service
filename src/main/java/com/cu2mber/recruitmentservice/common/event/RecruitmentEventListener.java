@@ -16,11 +16,15 @@ public class RecruitmentEventListener {
 
     @RabbitListener(queues = "${message.queue.payment}")
     public void handleIncreaseEvent(RecruitmentIncreaseRequest request) {
-        Recruitment recruitment = recruitmentRepository.findById(request.recruitmentNo())
-                .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
+        try {
+            Recruitment recruitment = recruitmentRepository.findById(request.recruitmentNo())
+                    .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
 
-        recruitment.increaseParticipantCount(request.participantCount());
-        recruitmentRepository.save(recruitment);
+            recruitment.increaseParticipantCount(request.participantCount());
+            recruitmentRepository.saveAndFlush(recruitment);
+        } catch(Exception e) {
+            // todo 환불 이벤트 발생
+        }
     }
 
     @RabbitListener()
@@ -29,5 +33,6 @@ public class RecruitmentEventListener {
                 .orElseThrow(() -> new RecruitmentException(RecruitmentErrorCode.NOT_FOUND));
 
         recruitment.decreaseParticipantCount(event.getParticipant());
+        recruitmentRepository.saveAndFlush(recruitment);
     }
 }
